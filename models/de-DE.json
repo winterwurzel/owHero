@@ -1,0 +1,56 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "zufalls character",
+      "types": [
+
+      ],
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+
+          ]
+        },
+        {
+          "name": "GetOwHeroIntent",
+          "slots": [
+
+          ],
+          "samples": [
+            "zufalls character",
+            "zufalls hero",
+            "zufalls held",
+            "gib mir einen zufalls character",
+            "gib mir einen zufalls hero",
+            "gib mir einen zufalls held",
+            "zufälliger character",
+            "zufälliger hero",
+            "zufälliger held",
+            "gib mir einen zufälligen character",
+            "gib mir einen zufälligen hero",
+            "gib mir einen zufälligen held",
+            "character",
+            "hero",
+            "held",
+            "gib mir einen character",
+            "gib mir einen hero",
+            "gib mir einen held"
+          ]
+        }
+      ]
+    }
+  }
+}
