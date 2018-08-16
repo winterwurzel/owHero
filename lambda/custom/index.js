@@ -6,47 +6,97 @@ const cookbook = require('./cookbook.js');
 
 const SKILL_NAME = 'Zufälliger Overwatch Held';
 const GET_HERO_MESSAGE = 'Dein zufälliger Held: ';
-const HELP_MESSAGE = 'Du kannst mich nach einem zufälligen Overwatch Helden fragen.';
+const HELP_MESSAGE = 'Ich kann einen Overwatch Helden für dein nächstes Match aus allen verfügbaren Helden oder aus einer der drei Kategorien Tank, Support und Damage auswählen. ';
 const HELP_REPROMPT = 'Wie kann ich dir helfen?';
-const STOP_MESSAGE = 'Viel erfolg beim spielen!';
+const STOP_MESSAGE = 'Viel erfolg beim match!';
 const ERROR_MESSAGE = 'Ich hab dich leider nicht verstanden, kannst du die Frage wiederholen?';
 
-const data = [
-  'Mercy',
+const supports = [
   'Ana',
-  'Lucio',
+  'Brigitte',
+  'Lusio',
+  'Mercy',
   'Moira',
   'Zenyatta'
 ];
 
-// const LaunchRequestHandler = {
-//   canHandle(handlerInput) {
-//     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
-//   },
-//   handle(handlerInput) {
-//     const speechText = 'Welcome to the Alexa Skills Kit, you can say hello!';
-//     return handlerInput.responseBuilder
-//       .speak(speechText)
-//       .reprompt(speechText)
-//       .withSimpleCard(SKILL_NAME, speechText)
-//       .getResponse();
-//   },
-// };
+const tanks = [
+  'DiVa',
+  'Orisa',
+  'Reinhardt',
+  'Roadhog',
+  'Winston',
+  'Wrecking Ball',
+  'Sarya'
+];
+
+const damage = [
+  'Bastion',
+  'Doomfist',
+ 	'Genji',
+ 	'Hanzo',
+  'Junkrat',
+  'McCree',
+  'Mei',
+  'Pharah',
+  'Reaper',
+  'Soldier 76',
+  'Sombra',
+  'Symmetra',
+  'Torbjörn',
+  'Tracer',
+  'Widowmaker'
+]
+
+const LaunchRequestHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'LaunchRequest';
+  },
+  handle(handlerInput) {
+    
+    const randomHero = cookbook.getRandomItem(supports.concat(tanks).concat(damage));
+    const speechText = GET_HERO_MESSAGE + randomHero;
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard(SKILL_NAME, randomHero)
+      .withShouldEndSession(false)
+      .getResponse();
+  },
+};
 
 const GetOwHeroIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-    return request.type === 'LaunchRequest'
-      || (request.type === 'IntentRequest'
-      && request.intent.name === 'GetOwHeroIntent');
+    return request.type === 'IntentRequest'
+      && request.intent.name === 'GetOwHeroIntent';
   },
   handle(handlerInput) {
-    const randomFact = cookbook.getRandomItem(data);
-    const speechText = GET_HERO_MESSAGE + randomFact;
+    const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
+    const slotValues = cookbook.getSlotValues(filledSlots);
+    
+    var randomHero = '';
+    var speechText = '';
+
+    if (slotValues.class.resolved === 'Tank') {
+      randomHero = cookbook.getRandomItem(tanks);
+      speechText = `Dein zufälliger ${slotValues.class.resolved} Held: ` + randomHero;
+    } else if (slotValues.class.resolved === 'Support') {
+      randomHero = cookbook.getRandomItem(supports);
+      speechText = `Dein zufälliger ${slotValues.class.resolved} Held: ` + randomHero;
+    } else if (slotValues.class.resolved === 'Damage') {
+      randomHero = cookbook.getRandomItem(damage);
+      speechText = `Dein zufälliger ${slotValues.class.resolved} Held: ` + randomHero;
+    } else {
+      randomHero = cookbook.getRandomItem(supports.concat(tanks).concat(damage));
+      speechText = GET_HERO_MESSAGE + randomHero;
+    }
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard(SKILL_NAME, randomFact)
+      .withSimpleCard(SKILL_NAME, randomHero)
+      .withShouldEndSession(false)
       .getResponse();
   },
 };
@@ -112,6 +162,7 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 
 exports.handler = skillBuilder
   .addRequestHandlers(
+    LaunchRequestHandler,
     GetOwHeroIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,

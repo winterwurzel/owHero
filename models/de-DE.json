@@ -1,10 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "zufalls character",
-      "types": [
-
-      ],
+      "invocationName": "overwatch picker",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -27,30 +24,136 @@
         {
           "name": "GetOwHeroIntent",
           "slots": [
-
+            {
+              "name": "class",
+              "type": "classType",
+              "samples": [
+                "gib mir einen zufalls {class} Charakter",
+                "gib mir einen zufalls {class} hero",
+                "gib mir einen zufalls {class} Held",
+                "gib mir einen zufalls {class} Helden",
+                "welchen {class} Charakter ich spielen soll",
+                "welchen {class} hero ich spielen soll",
+                "welchen {class} Helden ich spielen soll",
+                "welchen {class} Held ich spielen soll",
+                "Held aus {class} Klasse",
+                "Held aus {class}",
+                "{class} Held",
+                "{class}",
+                "gib mir einen {class} Helden",
+                "gib mir einen {class}"
+              ]
+            }
           ],
           "samples": [
-            "zufalls character",
+            "welchen {class} Charakter ich spielen soll",
+            "welchen {class} hero ich spielen soll",
+            "welchen {class} Helden ich spielen soll",
+            "welchen {class} Held ich spielen soll",
+            "welchen Charakter ich spielen soll",
+            "welchen hero ich spielen soll",
+            "welchen Helden ich spielen soll",
+            "welchen Held ich spielen soll",
+            "welchen Charakter soll ich spielen",
+            "welchen hero soll ich spielen",
+            "welchen Helden soll ich spielen",
+            "welchen Held soll ich spielen",
+            "zufalls Charakter",
             "zufalls hero",
-            "zufalls held",
-            "gib mir einen zufalls character",
+            "zufalls Held",
+            "gib mir einen zufalls Charakter",
             "gib mir einen zufalls hero",
-            "gib mir einen zufalls held",
-            "zufälliger character",
+            "gib mir einen zufalls Held",
+            "gib mir einen zufalls Helden",
+            "gib mir einen zufalls {class} Charakter",
+            "gib mir einen zufalls {class} hero",
+            "gib mir einen zufalls {class} Held",
+            "gib mir einen zufalls {class} Helden",
+            "zufälliger Charakter",
             "zufälliger hero",
-            "zufälliger held",
-            "gib mir einen zufälligen character",
+            "zufälliger Held",
+            "gib mir einen zufälligen Charakter",
             "gib mir einen zufälligen hero",
-            "gib mir einen zufälligen held",
-            "character",
+            "gib mir einen zufälligen Held",
+            "Charakter",
             "hero",
-            "held",
-            "gib mir einen character",
+            "Held",
+            "gib mir einen Charakter",
             "gib mir einen hero",
-            "gib mir einen held"
+            "gib mir einen Held",
+            "Held aus {class} Klasse",
+            "Held aus {class}",
+            "{class} Held",
+            "{class}",
+            "gib mir einen {class} Helden",
+            "gib mir einen {class}"
+          ]
+        }
+      ],
+      "types": [ 
+        {
+          "values": [
+            {
+              "name": {
+                "value": "Support",
+                "synonyms": [
+                  "Healer",
+                  "Heiler"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "Tank",
+                "synonyms": [
+                  "Protector"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "Damage",
+                "synonyms": [
+                  "Damage Dealer",
+                  "Offensiv",
+                  "Schaden"
+                ]
+              }
+            }
+          ],
+          "name": "classType"
+        } 
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "GetOwHeroIntent",
+          "confirmationRequired": false,
+          "slots": [
+            {
+              "name": "class",
+              "type": "classType",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Intent-class.IntentSlot-class"
+              }
+            }
           ]
         }
       ]
-    }
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Intent-class.IntentSlot-class",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Aus den Klassen Support, Tank und Damage, welche wälst du?"
+          }
+        ]
+      }
+    ]
   }
 }
